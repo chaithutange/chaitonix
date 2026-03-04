@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaitronix - Mobile App Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #111827;
+            --bg-card-hover: #1a2236;
+            --cyan: #22d3ee;
+            --purple: #a78bfa;
+            --blue: #3b82f6;
+            --green: #34d399;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(255,255,255,0.06);
+            --glow-cyan: rgba(34, 211, 238, 0.15);
+            --glow-purple: rgba(167, 139, 250, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            background: 
+                radial-gradient(ellipse 600px 400px at 20% 20%, var(--glow-purple), transparent),
+                radial-gradient(ellipse 500px 350px at 80% 60%, var(--glow-cyan), transparent),
+                radial-gradient(ellipse 400px 300px at 50% 90%, rgba(59,130,246,0.08), transparent);
+            animation: bgShift 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgShift {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 0 20px;
+            text-align: center;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        .logo-container {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        .logo-glow {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle, var(--glow-cyan), var(--glow-purple), transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            position: relative;
+            z-index: 1;
+            border: 2px solid var(--border);
+        }
+
+        .brand-name {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Divider */
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            border-radius: 2px;
+            margin: 32px auto;
+        }
+
+        /* About Section */
+        .about {
+            text-align: center;
+            padding: 0 20px;
+            animation: fadeUp 0.8s ease-out 0.2s both;
+        }
+
+        .about p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .about p strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Apps Section */
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+            margin: 48px 0 24px;
+            animation: fadeUp 0.8s ease-out 0.4s both;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            animation: fadeUp 0.8s ease-out 0.5s both;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .app-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(34, 211, 238, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .app-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .app-icon.cricket {
+            background: linear-gradient(135deg, #166534, #22c55e);
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .app-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .app-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .app-badge {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--cyan);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            white-space: nowrap;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 24px 0;
+            animation: fadeUp 0.8s ease-out 0.6s both;
+        }
+
+        .tech-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .tech-tag:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* Contact / Footer */
+        .footer {
+            text-align: center;
+            padding: 48px 0 40px;
+            animation: fadeUp 0.8s ease-out 0.7s both;
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .github-link:hover {
+            color: var(--text-primary);
+            border-color: var(--purple);
+            background: rgba(167, 139, 250, 0.08);
+        }
+
+        .github-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .copyright {
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            header { padding: 40px 0 16px; }
+            .brand-name { font-size: 32px; }
+            .tagline { font-size: 16px; }
+            .logo-img { width: 96px; height: 96px; }
+            .app-card { flex-direction: column; text-align: center; gap: 12px; padding: 20px; }
+            .app-badge { margin-top: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-glow"></div>
+                <img src="https://raw.githubusercontent.com/chaithutange/chaitonix/main/chaitronix_logo.png" alt="Chaitronix" class="logo-img" onerror="this.style.display='none'">
+            </div>
+            <h1 class="brand-name">CHAITRONIX</h1>
+            <p class="tagline">Crafting Mobile Experiences</p>
+        </header>
+
+        <div class="divider"></div>
+
+        <section class="about">
+            <p>
+                We design and develop <strong>high-quality mobile applications</strong> 
+                that solve real problems. From concept to App Store, we build 
+                <strong>polished, performant apps</strong> with clean architecture 
+                and attention to every detail.
+            </p>
+        </section>
+
+        <h3 class="section-title">Our Apps</h3>
+
+        <div class="app-card">
+            <div class="app-icon cricket">🏏</div>
+            <div class="app-info">
+                <div class="app-name">Rockers Club</div>
+                <div class="app-desc">
+                    Cricket club management app — scheduling, squad selection, 
+                    player stats, venues, and push notifications.
+                </div>
+            </div>
+            <span class="app-badge">iOS</span>
+        </div>
+
+        <h3 class="section-title">Tech Stack</h3>
+
+        <div class="tech-grid">
+            <span class="tech-tag">SwiftUI</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Cloud Functions</span>
+            <span class="tech-tag">Firestore</span>
+            <span class="tech-tag">FCM</span>
+            <span class="tech-tag">iOS 16+</span>
+            <span class="tech-tag">MVVM</span>
+            <span class="tech-tag">MapKit</span>
+        </div>
+
+        <footer class="footer">
+            <a href="https://github.com/chaithutange/chaitonix" target="_blank" class="github-link">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+            </a>
+            <p class="copyright">© 2026 Chaitronix. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
