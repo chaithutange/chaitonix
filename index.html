@@ -604,6 +604,23 @@
 
         .screenshots-scroll::-webkit-scrollbar { display: none; }
 
+        .screenshot-item {
+            flex-shrink: 0;
+            width: 150px;
+            height: 300px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .screenshot-placeholder {
             flex-shrink: 0;
             width: 150px; height: 300px;
@@ -1086,31 +1103,35 @@
             platform: "iOS", category: "Education", rating: "5.0",
             desc: "Math Hop makes learning math joyful for kids! Explore 50 fun levels with colorful, glassy tiles and hop through addition, subtraction, multiplication, and division challenges. Earn stars, track progress, and watch skills grow with each hop. No ads, no data tracking — just fun learning.",
             features: ["50 fun levels across all 4 operations", "Bright pastel design for young learners", "Star-based progress tracking", "Play freely — choose any level", "Glassy animated buttons & smooth rewards", "No ads, no data tracking — 100% private"],
-            storeUrl: "https://apps.apple.com/us/app/math-hop-by-chaitronix/id6753886307", screenshots: 6
+            storeUrl: "https://apps.apple.com/us/app/math-hop-by-chaitronix/id6753886307",
+            screenshots: ["images/mathhop-screen-1.png","images/mathhop-screen-2.png","images/mathhop-screen-3.png"]
         },
         rockers: {
             name: "Rockers Club", emoji: "🏏", colorClass: "blue",
             gradient: "linear-gradient(135deg, #2563eb, #60a5fa)", accentColor: "#2563eb",
-            iconImg: "images/RockersClub.png", rating: "New",
+            iconImg: "images/RockersClub.png", platform: "iOS", category: "Sports", rating: "New",
             desc: "The ultimate cricket club management app for administrators and players. Schedule practice and league matches with full venue details and timezone support. Confirm squads and instantly notify players. Track every player's performance including runs, wickets, and catches — all with real-time push notifications.",
             features: ["Admin & Player dual-role system", "Match scheduling with timezone support", "Real-time availability tracking", "Squad confirmation with push notifications", "Interactive leaderboard & cricket stats", "Import players from iPhone contacts"],
-            storeUrl: "https://apps.apple.com/us/app/rockersclub/id6759944852", screenshots: 6
+            storeUrl: "https://apps.apple.com/us/app/rockersclub/id6759944852",
+            screenshots: ["images/rockers-screen-1.png","images/rockers-screen-2.png","images/rockers-screen-3.png"]
         },
         smartslide: {
             name: "SmartSlide", emoji: "🧩", colorClass: "violet",
             gradient: "linear-gradient(135deg, #7c3aed, #a78bfa)", accentColor: "#7c3aed",
-            iconImg: "images/SmartSlide.png", rating: "4.7",
+            iconImg: "images/SmartSlide.png", platform: "iOS", category: "Puzzle", rating: "4.7",
             desc: "The modern take on the classic 15-puzzle! Play on 3×3, 4×4, or 5×5 boards. Race the clock in timed mode, choose tile color themes, and share your solved board in one tap. Persistent high scores, adaptive retina-ready layouts, and endless replay value.",
             features: ["Custom grid sizes — 3×3, 4×4, or 5×5", "Timed mode — race the clock", "Tile color themes — blue, purple, or pink", "Persistent high score tracking", "Share your victory screenshot in one tap", "Adaptive UI — portrait & landscape"],
-            storeUrl: "https://apps.apple.com/us/app/smartslide/id6749494336", screenshots: 6
+            storeUrl: "https://apps.apple.com/us/app/smartslide/id6749494336",
+            screenshots: ["images/smartslide-screen-1.png","images/smartslide-screen-2.png","images/smartslide-screen-3.png"]
         },
         smartledger: {
             name: "SmartLedger", emoji: "💰", colorClass: "orange",
             gradient: "linear-gradient(135deg, #d97706, #fbbf24)", accentColor: "#e97a18",
-            iconImg: "images/SmartLedger.png", rating: "5.0",
+            iconImg: "images/SmartLedger.png", platform: "iOS", category: "Finance", rating: "5.0",
             desc: "The simple, beautiful expense tracker designed to help you take control of your finances. No sign-ups, no subscriptions, no cloud dependency. Quick expense logging, smart budget tracking with animated progress bars, visual reports, recurring expenses, income tracking, and daily reminders — all 100% offline and private.",
             features: ["Quick expense logging with tap amounts", "Smart budget tracking with alerts", "Visual monthly breakdown charts", "Recurring expenses auto-logging", "Multiple income source tracking", "100% offline & private — no account needed"],
-            storeUrl: "https://apps.apple.com/us/app/smartledger-money-tracker/id6759510727", screenshots: 6
+            storeUrl: "https://apps.apple.com/us/app/smartledger-money-tracker/id6759510727",
+            screenshots: ["images/smartledger-screen-1.png","images/smartledger-screen-2.png","images/smartledger-screen-3.png"]
         }
     };
 
@@ -1131,7 +1152,9 @@
         document.getElementById('modal-cta-link').href = app.storeUrl;
         document.getElementById('modal-tags').innerHTML = `<span class="modal-tag">${app.platform}</span><span class="modal-tag">${app.category}</span><span class="modal-tag">★ ${app.rating}</span>`;
         let sh = '';
-        for (let i = 0; i < app.screenshots; i++) sh += `<div class="screenshot-placeholder"><svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg><span>Screen ${i+1}</span></div>`;
+        app.screenshots.forEach((src, i) => {
+            sh += `<div class="screenshot-item"><img src="${src}" alt="${app.name} screenshot ${i+1}" onerror="this.parentElement.innerHTML='<div class=\\'screenshot-placeholder\\'><svg viewBox=\\'0 0 24 24\\' stroke-width=\\'1.5\\'><rect x=\\'5\\' y=\\'2\\' width=\\'14\\' height=\\'20\\' rx=\\'2\\'/><line x1=\\'12\\' y1=\\'18\\' x2=\\'12\\' y2=\\'18.01\\'/></svg><span>Screen ${i+1}</span></div>'"></div>`;
+        });
         document.getElementById('modal-screenshots').innerHTML = sh;
         let fh = '';
         app.features.forEach(f => { fh += `<div class="feature-item"><div class="feature-dot" style="background:${app.accentColor}"></div><span>${f}</span></div>`; });
