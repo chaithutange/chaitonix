@@ -193,19 +193,20 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 28px 24px;
             cursor: pointer;
             transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: row;
         }
 
         .app-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0;
-            width: 100%; height: 3px;
+            width: 3px; height: 100%;
             opacity: 0;
             transition: opacity 0.35s;
         }
@@ -218,40 +219,66 @@
 
         .app-card:hover::before { opacity: 1; }
 
-        .app-card[data-color="green"]::before { background: linear-gradient(90deg, var(--accent), transparent); }
-        .app-card[data-color="blue"]::before { background: linear-gradient(90deg, var(--blue), transparent); }
-        .app-card[data-color="violet"]::before { background: linear-gradient(90deg, var(--violet), transparent); }
-        .app-card[data-color="orange"]::before { background: linear-gradient(90deg, var(--orange), transparent); }
+        .app-card[data-color="green"]::before { background: linear-gradient(180deg, var(--accent), transparent); }
+        .app-card[data-color="blue"]::before { background: linear-gradient(180deg, var(--blue), transparent); }
+        .app-card[data-color="violet"]::before { background: linear-gradient(180deg, var(--violet), transparent); }
+        .app-card[data-color="orange"]::before { background: linear-gradient(180deg, var(--orange), transparent); }
 
-        .app-card-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        .app-icon-wrap {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
+        .app-card-icon-side {
+            flex-shrink: 0;
+            width: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            flex-shrink: 0;
+            padding: 24px 16px;
+            background: var(--bg);
+            border-right: 1px solid var(--border);
         }
 
-        .app-icon-wrap.green { background: linear-gradient(135deg, #059669, #34d399); }
-        .app-icon-wrap.blue { background: linear-gradient(135deg, #2563eb, #60a5fa); }
-        .app-icon-wrap.violet { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
-        .app-icon-wrap.orange { background: linear-gradient(135deg, #d97706, #fbbf24); }
+        .app-icon-wrap {
+            width: 96px;
+            height: 96px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 2px solid var(--border-hover);
+            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .app-card:hover .app-icon-wrap {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .app-icon-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .app-card-content {
+            flex: 1;
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .app-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
 
         .app-platform {
             font-family: 'Space Mono', monospace;
             font-size: 10px;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 6px;
             border: 1px solid var(--border);
             color: var(--text-muted);
@@ -260,24 +287,31 @@
 
         .app-card-body h3 {
             font-family: 'Syne', sans-serif;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 700;
-            margin-bottom: 6px;
             letter-spacing: -0.3px;
             color: var(--text);
         }
 
         .app-card-body p {
-            font-size: 13px;
+            font-size: 12.5px;
             color: var(--text-secondary);
-            line-height: 1.65;
-            margin-bottom: 18px;
+            line-height: 1.6;
+            margin-top: 6px;
+            margin-bottom: 14px;
         }
 
         .app-card-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+        .app-desc {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0;
         }
 
         .app-store-btn {
@@ -502,6 +536,14 @@
             justify-content: center;
             font-size: 36px;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .modal-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
         }
 
         .modal-meta { flex: 1; }
@@ -779,6 +821,9 @@
         /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
             .app-grid { grid-template-columns: 1fr; }
+            .app-card { flex-direction: row; }
+            .app-card-icon-side { width: 120px; padding: 20px 12px; }
+            .app-icon-wrap { width: 80px; height: 80px; border-radius: 18px; }
             .vision-grid { grid-template-columns: 1fr; }
             .hero { padding: 40px 0 32px; }
             .hero-logo { width: 76px; height: 76px; }
@@ -797,8 +842,12 @@
             .hero-tagline { font-size: 13px; }
             .stat-value { font-size: 22px; }
             .hero-stats { flex-wrap: wrap; gap: 16px; }
-            .app-card { padding: 22px 18px; }
             .section-title { font-size: 26px; }
+            .app-card-icon-side { width: 100px; padding: 16px 10px; }
+            .app-icon-wrap { width: 68px; height: 68px; border-radius: 16px; }
+            .app-card-content { padding: 18px 16px; }
+            .app-card-footer { flex-direction: column; gap: 8px; align-items: stretch; }
+            .app-store-btn, .details-btn { justify-content: center; }
         }
     </style>
 </head>
@@ -835,82 +884,78 @@
 
         <div class="app-grid">
             <div class="app-card fade-in" data-color="green" onclick="openModal('mathhop')">
-                <div class="app-card-header">
-                    <div class="app-icon-wrap green">🧮</div>
-                    <span class="app-platform">iOS</span>
+                <div class="app-card-icon-side">
+                    <div class="app-icon-wrap"><img src="images/MatchHOP.png" alt="Math Hop"></div>
                 </div>
-                <div class="app-card-body">
-                    <h3>Math Hop</h3>
-                    <p>Fun math game for kids — 50 levels of addition, subtraction, multiplication & division with colorful tiles, stars, and zero ads.</p>
-                </div>
-                <div class="app-card-footer">
-                    <a href="https://apps.apple.com/us/app/math-hop-by-chaitronix/id6753886307" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
-                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                        App Store
-                    </a>
-                    <button class="details-btn" onclick="event.stopPropagation(); openModal('mathhop')">
-                        Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
+                <div class="app-card-content">
+                    <div>
+                        <div class="app-card-header"><div class="app-card-body"><h3>Math Hop</h3></div><span class="app-platform">iOS</span></div>
+                        <p class="app-desc">Fun math game for kids — 50 levels of addition, subtraction, multiplication & division with colorful tiles, stars, and zero ads.</p>
+                    </div>
+                    <div class="app-card-footer">
+                        <a href="https://apps.apple.com/us/app/math-hop-by-chaitronix/id6753886307" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
+                            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            App Store
+                        </a>
+                        <button class="details-btn" onclick="event.stopPropagation(); openModal('mathhop')">Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
                 </div>
             </div>
 
             <div class="app-card fade-in" data-color="blue" onclick="openModal('rockers')">
-                <div class="app-card-header">
-                    <div class="app-icon-wrap blue">🏏</div>
-                    <span class="app-platform">iOS</span>
+                <div class="app-card-icon-side">
+                    <div class="app-icon-wrap"><img src="images/RockersClub.png" alt="Rockers Club"></div>
                 </div>
-                <div class="app-card-body">
-                    <h3>Rockers Club</h3>
-                    <p>Cricket club management — schedule matches, confirm squads, track player stats with leaderboards, and real-time push notifications.</p>
-                </div>
-                <div class="app-card-footer">
-                    <a href="https://apps.apple.com/us/app/rockersclub/id6759944852" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
-                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                        App Store
-                    </a>
-                    <button class="details-btn" onclick="event.stopPropagation(); openModal('rockers')">
-                        Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
+                <div class="app-card-content">
+                    <div>
+                        <div class="app-card-header"><div class="app-card-body"><h3>Rockers Club</h3></div><span class="app-platform">iOS</span></div>
+                        <p class="app-desc">Cricket club management — schedule matches, confirm squads, track player stats with leaderboards, and real-time push notifications.</p>
+                    </div>
+                    <div class="app-card-footer">
+                        <a href="https://apps.apple.com/us/app/rockersclub/id6759944852" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
+                            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            App Store
+                        </a>
+                        <button class="details-btn" onclick="event.stopPropagation(); openModal('rockers')">Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
                 </div>
             </div>
 
             <div class="app-card fade-in" data-color="violet" onclick="openModal('smartslide')">
-                <div class="app-card-header">
-                    <div class="app-icon-wrap violet">🧩</div>
-                    <span class="app-platform">iOS</span>
+                <div class="app-card-icon-side">
+                    <div class="app-icon-wrap"><img src="images/SmartSlide.png" alt="SmartSlide"></div>
                 </div>
-                <div class="app-card-body">
-                    <h3>SmartSlide</h3>
-                    <p>The modern classic sliding number puzzle — play on 3×3, 4×4 or 5×5 grids, race the clock, and share your best scores.</p>
-                </div>
-                <div class="app-card-footer">
-                    <a href="https://apps.apple.com/us/app/smartslide/id6749494336" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
-                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                        App Store
-                    </a>
-                    <button class="details-btn" onclick="event.stopPropagation(); openModal('smartslide')">
-                        Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
+                <div class="app-card-content">
+                    <div>
+                        <div class="app-card-header"><div class="app-card-body"><h3>SmartSlide</h3></div><span class="app-platform">iOS</span></div>
+                        <p class="app-desc">The modern classic sliding number puzzle — play on 3×3, 4×4 or 5×5 grids, race the clock, and share your best scores.</p>
+                    </div>
+                    <div class="app-card-footer">
+                        <a href="https://apps.apple.com/us/app/smartslide/id6749494336" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
+                            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            App Store
+                        </a>
+                        <button class="details-btn" onclick="event.stopPropagation(); openModal('smartslide')">Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
                 </div>
             </div>
 
             <div class="app-card fade-in" data-color="orange" onclick="openModal('smartledger')">
-                <div class="app-card-header">
-                    <div class="app-icon-wrap orange">💰</div>
-                    <span class="app-platform">iOS</span>
+                <div class="app-card-icon-side">
+                    <div class="app-icon-wrap"><img src="images/SmartLedger.png" alt="SmartLedger"></div>
                 </div>
-                <div class="app-card-body">
-                    <h3>SmartLedger</h3>
-                    <p>Simple, beautiful expense tracker — budget tracking, visual reports, recurring expenses, and income logging. 100% offline & private.</p>
-                </div>
-                <div class="app-card-footer">
-                    <a href="https://apps.apple.com/us/app/smartledger-money-tracker/id6759510727" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
-                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                        App Store
-                    </a>
-                    <button class="details-btn" onclick="event.stopPropagation(); openModal('smartledger')">
-                        Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
+                <div class="app-card-content">
+                    <div>
+                        <div class="app-card-header"><div class="app-card-body"><h3>SmartLedger</h3></div><span class="app-platform">iOS</span></div>
+                        <p class="app-desc">Simple, beautiful expense tracker — budget tracking, visual reports, recurring expenses, and income logging. 100% offline & private.</p>
+                    </div>
+                    <div class="app-card-footer">
+                        <a href="https://apps.apple.com/us/app/smartledger-money-tracker/id6759510727" target="_blank" class="app-store-btn" onclick="event.stopPropagation()">
+                            <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            App Store
+                        </a>
+                        <button class="details-btn" onclick="event.stopPropagation(); openModal('smartledger')">Details <svg viewBox="0 0 24 24" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1037,6 +1082,7 @@
         mathhop: {
             name: "Math Hop", emoji: "🧮", colorClass: "green",
             gradient: "linear-gradient(135deg, #059669, #34d399)", accentColor: "#0ea371",
+            iconImg: "images/MatchHOP.png",
             platform: "iOS", category: "Education", rating: "5.0",
             desc: "Math Hop makes learning math joyful for kids! Explore 50 fun levels with colorful, glassy tiles and hop through addition, subtraction, multiplication, and division challenges. Earn stars, track progress, and watch skills grow with each hop. No ads, no data tracking — just fun learning.",
             features: ["50 fun levels across all 4 operations", "Bright pastel design for young learners", "Star-based progress tracking", "Play freely — choose any level", "Glassy animated buttons & smooth rewards", "No ads, no data tracking — 100% private"],
@@ -1045,7 +1091,7 @@
         rockers: {
             name: "Rockers Club", emoji: "🏏", colorClass: "blue",
             gradient: "linear-gradient(135deg, #2563eb, #60a5fa)", accentColor: "#2563eb",
-            platform: "iOS", category: "Sports", rating: "New",
+            iconImg: "images/RockersClub.png", rating: "New",
             desc: "The ultimate cricket club management app for administrators and players. Schedule practice and league matches with full venue details and timezone support. Confirm squads and instantly notify players. Track every player's performance including runs, wickets, and catches — all with real-time push notifications.",
             features: ["Admin & Player dual-role system", "Match scheduling with timezone support", "Real-time availability tracking", "Squad confirmation with push notifications", "Interactive leaderboard & cricket stats", "Import players from iPhone contacts"],
             storeUrl: "https://apps.apple.com/us/app/rockersclub/id6759944852", screenshots: 6
@@ -1053,7 +1099,7 @@
         smartslide: {
             name: "SmartSlide", emoji: "🧩", colorClass: "violet",
             gradient: "linear-gradient(135deg, #7c3aed, #a78bfa)", accentColor: "#7c3aed",
-            platform: "iOS", category: "Puzzle", rating: "4.7",
+            iconImg: "images/SmartSlide.png", rating: "4.7",
             desc: "The modern take on the classic 15-puzzle! Play on 3×3, 4×4, or 5×5 boards. Race the clock in timed mode, choose tile color themes, and share your solved board in one tap. Persistent high scores, adaptive retina-ready layouts, and endless replay value.",
             features: ["Custom grid sizes — 3×3, 4×4, or 5×5", "Timed mode — race the clock", "Tile color themes — blue, purple, or pink", "Persistent high score tracking", "Share your victory screenshot in one tap", "Adaptive UI — portrait & landscape"],
             storeUrl: "https://apps.apple.com/us/app/smartslide/id6749494336", screenshots: 6
@@ -1061,7 +1107,7 @@
         smartledger: {
             name: "SmartLedger", emoji: "💰", colorClass: "orange",
             gradient: "linear-gradient(135deg, #d97706, #fbbf24)", accentColor: "#e97a18",
-            platform: "iOS", category: "Finance", rating: "5.0",
+            iconImg: "images/SmartLedger.png", rating: "5.0",
             desc: "The simple, beautiful expense tracker designed to help you take control of your finances. No sign-ups, no subscriptions, no cloud dependency. Quick expense logging, smart budget tracking with animated progress bars, visual reports, recurring expenses, income tracking, and daily reminders — all 100% offline and private.",
             features: ["Quick expense logging with tap amounts", "Smart budget tracking with alerts", "Visual monthly breakdown charts", "Recurring expenses auto-logging", "Multiple income source tracking", "100% offline & private — no account needed"],
             storeUrl: "https://apps.apple.com/us/app/smartledger-money-tracker/id6759510727", screenshots: 6
@@ -1071,9 +1117,15 @@
     function openModal(appId) {
         const app = apps[appId];
         if (!app) return;
-        document.getElementById('modal-icon').innerHTML = app.emoji;
-        document.getElementById('modal-icon').style.background = app.gradient;
-        document.getElementById('modal-icon').style.fontSize = '36px';
+        const iconEl = document.getElementById('modal-icon');
+        if (app.iconImg) {
+            iconEl.innerHTML = `<img src="${app.iconImg}" alt="${app.name}">`;
+            iconEl.style.background = 'transparent';
+        } else {
+            iconEl.innerHTML = app.emoji;
+            iconEl.style.background = app.gradient;
+        }
+        iconEl.style.fontSize = '36px';
         document.getElementById('modal-title').textContent = app.name;
         document.getElementById('modal-desc').textContent = app.desc;
         document.getElementById('modal-cta-link').href = app.storeUrl;
